@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playlists</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Music Player</h2>
+    <a href="index.html">▶ Player</a>
+    <a href="library.html">🎵 Library</a>
+    <a href="playlists.html" class="active">📂 Playlists</a>
+  </div>
+
+  <!-- Playlists Page -->
+  <div class="main">
+    <div class="header">
+      <h1>Playlists</h1>
+    </div>
+
+    <div class="playlist-grid" id="userPlaylists">
+      <!-- Playlists will load here -->
+    </div>
+  </div>
+
+  <!-- Hidden global audio player (shared with index.html) -->
+  <audio id="audioPlayer" controls style="display:none"></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("userPlaylists");
+      let savedPlaylists = JSON.parse(localStorage.getItem("userPlaylist")) || [];
+
+      if (savedPlaylists.length === 0) {
+        container.innerHTML = "<p>No songs in your playlist yet.</p>";
+        return;
+      }
+
+      savedPlaylists.forEach((song, i) => {
+        const div = document.createElement("div");
+        div.className = "playlist-card";
+        div.innerHTML = `
+          <img src="${song.cover}" alt="cover" class="playlist-cover">
+          <h3>${song.title}</h3>
+          <p>${song.artist}</p>
+          <button onclick="playPlaylistSong(${i})">▶ Play</button>
+        `;
+        container.appendChild(div);
+      });
+    });
+
+    // Use GLOBAL player instead of creating a new Audio()
+    function playPlaylistSong(index) {
+      let savedPlaylists = JSON.parse(localStorage.getItem("userPlaylist")) || [];
+      const song = savedPlaylists[index];
+      if (!song) return;
+
+      // Grab global player
+      const audio = document.getElementById("audioPlayer");
+
+      // Update source
+      audio.src = song.src;
+      audio.play();
+
+      // Update global track info (if your index.html has elements for this)
+      if (document.getElementById("trackTitle")) {
+        document.getElementById("trackTitle").textContent = song.title;
+      }
+      if (document.getElementById("trackArtist")) {
+        document.getElementById("trackArtist").textContent = song.artist;
+      }
+      if (document.getElementById("trackCover")) {
+        document.getElementById("trackCover").src = song.cover;
+      }
+
+      // Optionally: save index to resume prev/next controls
+      localStorage.setItem("currentTrackIndex", index);
+      localStorage.setItem("currentPlaylist", "userPlaylist");
+    }
+  </script>
+</body>
+
+</html>

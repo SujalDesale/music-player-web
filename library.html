@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music Player</title>
+  <title>Music Library</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <!-- Sidebar -->
   <div class="sidebar">
     <h2>Music Player</h2>
-    <a href="index.html" class="active">▶ Player</a>
-    <a href="library.html">🎵 Library</a>
+    <a href="index.html">▶ Player</a>
+    <a href="library.html" class="active">🎵 Library</a>
     <a href="playlists.html">📂 Playlists</a>
-    
-    <!-- Current Song Preview + Controls -->
+
+    <!-- Now Playing Preview (like index.html) -->
     <div class="album-preview">
       <img id="albumArt" src="assets/cover.jpg" alt="Album">
-      <p><b id="trackTitleInfo"> </b><br><span id="trackArtistInfo"> </span></p>
+      <p><b id="trackTitleInfo">---</b><br><span id="trackArtistInfo">---</span></p>
 
       <!-- Controls -->
       <div class="controls">
@@ -33,7 +35,7 @@
           <button id="nextBtn">⏭</button>
         </div>
 
-        <!-- Volume Control -->
+        <!-- Volume -->
         <div class="volume">
           <span>🔉</span>
           <input type="range" id="volumeControl" min="0" max="100" value="70">
@@ -46,35 +48,36 @@
   <!-- Main Section -->
   <div class="main">
     <div class="header">
-      <h1>Now Playing</h1>
-      <p>Your personal music experience</p>
+      <h1>Music Library</h1>
+      <p>Your personal music collection</p>
 
-      <!-- 🔍 Search Bar -->
+      <!-- 🔍 Search -->
       <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search for songs...">
-        <button onclick="searchSongs()">Search</button>
+        <input type="text" id="librarySearch" placeholder="Search your songs...">
+        <button onclick="filterLibrary()">Search</button>
       </div>
-
-      <!-- Search Results -->
-      <div id="searchResults"></div>
     </div>
+
+    <!-- Song List -->
+    <div id="playlistContainer"></div>
   </div>
 
-
-  <!-- Track Info -->
+  <!-- Track Info (like index.html) -->
   <div class="track-info">
     <h3>Track Info</h3>
     <p><b>Title:</b> <span id="trackTitle">---</span></p>
     <p><b>Artist:</b> <span id="trackArtist">---</span></p>
     <p><b>Album:</b> <span id="trackAlbum">---</span></p>
     <hr>
-    <img id="trackImage" src="assets/cover2.jpg" alt="Headphones">
+    <img id="trackImage" src="assets/cover2.jpg" alt="Track Cover">
     <button class="add-btn" id="addToPlaylistBtn">Add to Playlist</button>
+
   </div>
 
-  <!-- Hidden Audio Player -->
+  <!-- Hidden Audio -->
   <audio id="audioPlayer"></audio>
-  
-  <script src="script.js"></script>
+
+  <script src="script-library.js"></script>
 </body>
+
 </html>
